@@ -8,6 +8,27 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js
 
+const fs = require('fs-extra')
+
+const packageJson = JSON.parse(fs.readFileSync('./package.json'))
+
+const description = packageJson.description
+const name = packageJson.name
+const productName = packageJson.productName
+const version = packageJson.version
+const year = packageJson.year || new Date().getFullYear()
+
+const env = {
+  APP: {
+    DESCRIPTION: description,
+    NAME: name,
+    PRODUCT_NAME: productName,
+    VERSION: version,
+    YEAR: year
+  },
+  SERVICE_HOST: process.env.ENV_GATHERING_SERVICE_HOST
+}
+console.log('env:', env)
 
 const ESLintPlugin = require('eslint-webpack-plugin')
 
@@ -51,6 +72,7 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-build
     build: {
+      env: env,
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
       // transpile: false,

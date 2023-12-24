@@ -11,9 +11,7 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+        <q-toolbar-title>{{ productName }}</q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
@@ -104,9 +102,12 @@ export default defineComponent({
   setup () {
     const leftDrawerOpen = ref(false)
 
+    const productName = process.env.APP.PRODUCT_NAME
+
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
+      productName,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
       }

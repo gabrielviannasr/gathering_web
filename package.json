@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Gathering",
   "productName": "Gathering",
+  "year": 2024,
   "author": "@gabrielviannasr",
   "private": true,
   "scripts": {
