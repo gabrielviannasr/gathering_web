@@ -1,5 +1,6 @@
 import { boot } from 'quasar/wrappers'
 import axios from 'axios'
+import { Notify } from 'quasar'
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -8,6 +9,28 @@ import axios from 'axios'
 // "export default () => {}" function below (which runs individually
 // for each client)
 const api = axios.create({ baseURL: process.env.SERVICE_HOST })
+
+api.interceptors.response.use(
+  (response) => {
+    if (
+      response.status === 200 &&
+      (response.config.method.toLowerCase() === 'put' ||
+        response.config.method.toLowerCase() === 'post')
+    ) {
+      Notify.create({
+        type: 'positive',
+        message: 'Success!',
+      })
+    }
+    return response
+  },
+  async (error) => {
+    Notify.create({
+      type: 'negative',
+      message: `Error: ${error.message}`,
+    })
+  }
+)
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
