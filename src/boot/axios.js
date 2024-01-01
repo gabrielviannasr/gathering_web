@@ -19,7 +19,7 @@ api.interceptors.response.use(
     ) {
       Notify.create({
         type: 'positive',
-        message: 'Success!',
+        message: 'Sucesso!',
       })
     }
     return response
@@ -27,7 +27,7 @@ api.interceptors.response.use(
   async (error) => {
     Notify.create({
       type: 'negative',
-      message: `Error: ${error.message}`,
+      message: `Erro: ${error.message}`,
     })
   }
 )
