@@ -5,9 +5,21 @@ import { api } from 'boot/axios'
 const URI = '/player'
 
 export const playerStore = defineStore('player', {
-  state: () => ({}),
+  state: () => ({
+    current: {
+      id: null,
+      name: null,
+      username: null,
+      email: null,
+      wallet: 0,
+    },
+    list: [],
+  }),
 
-  getters: {},
+  getters: {
+    player: (state) => state.current,
+    players: (state) => state.list,
+  },
 
   actions: {
     async getList(payload) {
@@ -17,6 +29,7 @@ export const playerStore = defineStore('player', {
         }
         const response = await api.get(URI, config)
         console.log('response', response)
+        this.list = response.data
         return response.data
       } catch (error) {
         throw new Error(error)
@@ -30,6 +43,7 @@ export const playerStore = defineStore('player', {
         }
         const response = await api.get(`${URI}/page`, config)
         console.log('response', response)
+        this.list = response.data
         return response.data
       } catch (error) {
         throw new Error(error)
@@ -40,6 +54,7 @@ export const playerStore = defineStore('player', {
       try {
         const response = await api.get(`${URI}/${payload.id}`)
         console.log('response', response)
+        this.current = response.data
         return response.data
       } catch (error) {
         throw new Error(error)
@@ -50,6 +65,7 @@ export const playerStore = defineStore('player', {
       try {
         const response = await api.post(URI, payload)
         console.log('response', response)
+        this.current = response.data
         return response.data
       } catch (error) {
         throw new Error(error)
@@ -63,6 +79,7 @@ export const playerStore = defineStore('player', {
         }
         const response = await api.put(URI, payload, config)
         console.log('response', response)
+        this.current = response.data
         return response.data
       } catch (error) {
         throw new Error(error)

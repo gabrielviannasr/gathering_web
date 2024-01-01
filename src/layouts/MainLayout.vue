@@ -30,8 +30,28 @@
     </q-drawer>
 
     <q-page-container>
-      <div><button @click="fetchPlayers">Fetch Players</button></div>
-      <router-view />
+      <q-page>
+        <div>
+          <h6>
+            Current Player:
+            <span class="text-red">{{ store.player.name }}</span>
+          </h6>
+          <div>
+            <button @click="store.getById({ id: 8 })">Fetch Player</button>
+          </div>
+
+          <h6>
+            Players: <span>{{ store.players.length }}</span>
+          </h6>
+          <ul>
+            <li v-for="player in store.players" :key="player.id">
+              {{ player.name }}
+            </li>
+          </ul>
+          <div><button @click="fetchPlayers">Fetch Players</button></div>
+        </div>
+      </q-page>
+      <!-- <router-view /> -->
     </q-page-container>
   </q-layout>
 </template>
@@ -101,9 +121,18 @@ export default defineComponent({
 
     const store = playerStore()
 
+    const fetchPlayer = async () => {
+      try {
+        const player = await store.getById({ id: 7 })
+        console.log('Player:', player)
+      } catch (error) {
+        console.error('Error fetching player:', error)
+      }
+    }
+
     const fetchPlayers = async () => {
       try {
-        // const players = await store.getList({ id: 7 })
+        const players = await store.getList({})
         // const players = await store.getPage({
         //   model: null,
         //   sort: ['wallet,desc', 'name,desc'],
@@ -120,13 +149,13 @@ export default defineComponent({
         //   email: 'jhonnyzinho@gmail.com',
         // })
 
-        const players = await store.update({
-          id: 7,
-          name: 'Gabriel Vianna Editx3',
-          username: 'gabrielviannasr',
-          email: 'gabriel.viannasr@gmail.com',
-          wallet: -10,
-        })
+        // const players = await store.update({
+        //   id: 7,
+        //   name: 'Gabriel Vianna Editx3',
+        //   username: 'gabrielviannasr',
+        //   email: 'gabriel.viannasr@gmail.com',
+        //   wallet: -10,
+        // })
         console.log('Players:', players)
       } catch (error) {
         console.error('Error fetching players:', error)
@@ -141,6 +170,7 @@ export default defineComponent({
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
       store,
+      fetchPlayer,
       fetchPlayers,
     }
   },
