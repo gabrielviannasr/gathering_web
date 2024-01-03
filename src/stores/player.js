@@ -10,9 +10,11 @@ export const playerStore = defineStore('player', {
       id: null,
       name: null,
       username: null,
+      password: null,
       email: null,
       wallet: 0,
     },
+    /** @type {{ id: number, name: text: username: text, password: text, email: text, wallet: number }[]} */
     list: [],
   }),
 
