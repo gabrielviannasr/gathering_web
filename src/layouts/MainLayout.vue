@@ -30,7 +30,7 @@
     </q-drawer>
 
     <q-page-container>
-      <q-page>
+      <!-- <q-page>
         <div>
           <h6>
             Current Player:
@@ -50,8 +50,8 @@
           </ul>
           <div><button @click="fetchPlayers">Fetch Players</button></div>
         </div>
-      </q-page>
-      <!-- <router-view /> -->
+      </q-page> -->
+      <router-view />
     </q-page-container>
   </q-layout>
 </template>
