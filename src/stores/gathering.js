@@ -22,8 +22,8 @@ export const gatheringStore = defineStore('gathering', {
   }),
 
   getters: {
-    player: (state) => state.current,
-    players: (state) => state.list,
+    gathering: (state) => state.current,
+    gatherings: (state) => state.list,
   },
 
   actions: {
