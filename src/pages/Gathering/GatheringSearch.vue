@@ -15,7 +15,7 @@
             outlined
             clearable
             clear-icon="close"
-            v-model="payload.year"
+            v-model="model.year"
             label="Ano:"
             class="col-xs-12 col-sm-3"
           />
@@ -24,7 +24,7 @@
             outlined
             clearable
             clear-icon="close"
-            v-model="payload.name"
+            v-model="model.name"
             label="Nome:"
             class="col-xs-12 col-sm-6"
           />
@@ -33,7 +33,7 @@
             outlined
             clearable
             clear-icon="close"
-            v-model="payload.player.username"
+            v-model="model['player.username']"
             label="Username:"
             class="col-xs-12 col-sm-3"
           />
@@ -65,32 +65,46 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
+import { gatheringStore } from 'stores/gathering'
+import _ from 'lodash'
 
 export default defineComponent({
   name: 'GatheringSearch',
 
   setup() {
-    let payload = ref({
-      player: {
-        username: null,
-      },
+    const store = gatheringStore()
+
+    let model = ref({
       name: null,
       year: null,
+      'player.username': null,
     })
 
-    const onSubmit = () => {
+    let payload = ref({
+      name: null,
+      year: null,
+      'player.username': null,
+    })
+
+    const onSubmit = async () => {
+      payload.value = _.cloneDeep(model.value)
       console.log('payload', payload.value)
+      await store.getList(payload.value)
     }
 
     const reload = () => {
-      console.log('payload', payload.value)
-      payload.value.name = null
-      payload.value.year = null
-      payload.value.player.username = null
+      console.log('model', model.value)
+      model.value = {
+        name: null,
+        year: null,
+        'player.username': null,
+      }
     }
 
     return {
+      model,
       payload,
+      store,
       onSubmit,
       reload,
     }
